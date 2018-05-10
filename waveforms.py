@@ -13,7 +13,7 @@ fs = spf.getframerate()
 
 # If Stereo
 if spf.getnchannels() == 2:
-    print 'Just mono files'
+    print('Just mono files')
     sys.exit(0)
 
 
