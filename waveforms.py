@@ -1,25 +1,29 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import wave
-import sys
 
 
-spf = wave.open('Animal_cut.wav','r')
+class WaveformConverter:
 
-# Extract Raw Audio from Wav File
-signal = spf.readframes(-1)
-signal = np.fromstring(signal, 'Int16')
-fs = spf.getframerate()
+    def __init__(self):
+        pass
 
-# If Stereo
-if spf.getnchannels() == 2:
-    print('Just mono files')
-    sys.exit(0)
+    @classmethod
+    def get_2d_array_from_waveform(cls, wavefile):
+        raw_wave = wave.open(wavefile, 'r')
 
+        # Extract Raw Audio from Wav File
+        signal = raw_wave.readframes(-1)
+        signal = np.fromstring(signal, 'Int16')
+        fs = raw_wave.getframerate()
 
-Time = np.linspace(0, len(signal)/fs, num=len(signal))
+        # If Stereo
+        if raw_wave.getnchannels() == 2:
+            print('Just mono files')
+            return [[]]
 
-plt.figure(1)
-plt.title('Signal Wave...')
-plt.plot(Time, signal)
-plt.show()
+        time = np.linspace(0, len(signal)/fs, num=len(signal))
+        our_2d = np.zeros(shape=(len(signal), 2))
+        for index, value in enumerate(signal):
+            our_2d[index] = [time[index], value]
+        return our_2d
+
