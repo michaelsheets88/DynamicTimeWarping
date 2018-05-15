@@ -9,7 +9,7 @@ class WaveformConverter:
 
     @classmethod
     def get_2d_array_from_waveform(cls, wavefile):
-        raw_wave = wave.open(wavefile, 'r')
+        raw_wave = wave.open("{0}.wav".format(wavefile), 'r')
 
         # Extract Raw Audio from Wav File
         signal = raw_wave.readframes(-1)
@@ -25,5 +25,6 @@ class WaveformConverter:
         our_2d = np.zeros(shape=(len(signal), 2))
         for index, value in enumerate(signal):
             our_2d[index] = [time[index], value]
+        print('============ {0}.wav converted ============'.format(wavefile))
         return our_2d
 
